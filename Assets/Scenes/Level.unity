@@ -176,7 +176,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6ba6e3aeab0be504bbeb126f029533b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,6 +206,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 192217647}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &582798159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 582798160}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &582798160
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582798159}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.034, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1399770758}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &647210657
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 839200970}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: World
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,7 +375,7 @@ GameObject:
   - component: {fileID: 1161887265}
   - component: {fileID: 1161887264}
   - component: {fileID: 1161887263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -448,6 +479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1399770758}
   - component: {fileID: 1399770757}
+  - component: {fileID: 1399770759}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -490,14 +522,40 @@ Transform:
   m_GameObject: {fileID: 1399770756}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1973.2385, y: 274.37338, z: -24.043959}
+  m_LocalPosition: {x: 1986.78, y: 274.37338, z: -24.043959}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 192217648}
   - {fileID: 1695533202}
+  - {fileID: 582798160}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1399770759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399770756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80b04d20f9b8604e8e07ae731b7dbef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 1695533202}
+  mouseSmoothTime: 0.03
+  mouseSensitivity: 3.5
+  cursorLock: 1
+  Speed: 6
+  moveSmoothTime: 0.3
+  gravity: -30
+  groundCheck: {fileID: 582798160}
+  ground:
+    serializedVersion: 2
+    m_Bits: 64
+  isGrounded: 0
+  jumpHeight: 6
 --- !u!1 &1695533199
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,6 +567,7 @@ GameObject:
   - component: {fileID: 1695533202}
   - component: {fileID: 1695533201}
   - component: {fileID: 1695533200}
+  - component: {fileID: 1695533203}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -590,6 +649,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1399770758}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1695533203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695533199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80b04d20f9b8604e8e07ae731b7dbef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  mouseSmoothTime: 0.03
+  mouseSensitivity: 3.5
+  cursorLock: 1
+  Speed: 6
+  moveSmoothTime: 0.3
+  gravity: -30
+  groundCheck: {fileID: 0}
+  ground:
+    serializedVersion: 2
+    m_Bits: 64
+  isGrounded: 0
+  jumpHeight: 6
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
