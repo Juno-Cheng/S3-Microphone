@@ -5,7 +5,7 @@ using UnityEngine;
 public class MouseLook : MonoBehaviour
 {
     [Header("Camera Settings")]
-    [SerializeField] Transform playerCamera;
+    [SerializeField] public Transform playerCamera;
 
     [Header("Mouse Settings")]
     [SerializeField][Range(0.0f, 0.5f)] float mouseSmoothTime = 0.03f;
