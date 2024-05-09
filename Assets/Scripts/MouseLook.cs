@@ -43,6 +43,17 @@ public class MouseLook : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
 
+        // Automatically find the camera if not assigned in the Inspector
+        if (playerCamera == null)
+        {
+            playerCamera = GetComponentInChildren<Camera>()?.transform;
+            if (playerCamera == null)
+            {
+                Debug.LogError("MouseLook: No playerCamera assigned or found in children.");
+            }
+        }
+
+
         //Locks Cursor & Makesa Cursor Visible
         if (cursorLock)
         {
