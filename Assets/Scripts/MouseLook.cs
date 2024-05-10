@@ -107,7 +107,7 @@ public class MouseLook : MonoBehaviour
         velocityY += gravity * 2f * Time.deltaTime;
 
         //Use Controller to Move
-        velocity = (transform.forward * currentDir.y) + (transform.right * currentDir.x) * Speed + (Vector3.up * velocityY);
+        velocity = (transform.forward * currentDir.y) * Speed + (transform.right * currentDir.x) * Speed + (Vector3.up * velocityY);
         controller.Move(velocity * Time.deltaTime);
 
         

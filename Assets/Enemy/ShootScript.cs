@@ -17,8 +17,31 @@ public class ShootScript : MonoBehaviour
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private float fireRate = 1f;
     [SerializeField] private float projectileSpeed = 20f;
+    [SerializeField] private float spawnOffset = 0.5f;
 
     private float nextFireTime;
+
+
+    private void Start()
+    {
+        // Find the player GameObject by its tag
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        if (playerObject != null)
+        {
+            obj = playerObject.transform;
+        }
+        else
+        {
+            Debug.LogError("Player object not found in the scene. Make sure it's tagged 'Player'.");
+        }
+
+        // Ensure the NavMeshAgent is properly placed on the NavMesh
+        if (!enemy.isOnNavMesh)
+        {
+            Debug.LogError("NavMeshAgent is not placed on a valid NavMesh surface.");
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -66,8 +89,12 @@ public class ShootScript : MonoBehaviour
 
     void ShootProjectile()
     {
+
+        Vector3 spawnPosition = projectileSpawnPoint.position + projectileSpawnPoint.forward * spawnOffset;
+
+
         // Instantiate the projectile
-        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+        GameObject projectile = Instantiate(projectilePrefab, spawnPosition, projectileSpawnPoint.rotation);
 
         // Add force to the projectile to move it forward
         Rigidbody rb = projectile.GetComponent<Rigidbody>();

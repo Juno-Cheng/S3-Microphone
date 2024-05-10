@@ -47,8 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901759dbe6abc3142894e83ea8eac74c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obj: {fileID: 0}
-  enemy: {fileID: 0}
+  enemy: {fileID: 6979455013410490794}
   speed: 10
 --- !u!54 &6867373275310825615
 Rigidbody:
