@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class CommandManager : MonoBehaviour
 {
     
+    CommandState baseState = new CommandState();
     CommandState laserState = new CommandLaserState();
     CommandState bubbleState = new CommandBubbleState();
 
@@ -23,7 +24,7 @@ public class CommandManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentState = laserState;
+        currentState = baseState;
         currentState.Setup(this);
     }
 
@@ -34,14 +35,23 @@ public class CommandManager : MonoBehaviour
             currentState.LoopUpdate(this);
         }
         if (Input.GetMouseButtonDown(0)) {
-            //ChangeState(bubbleState);
+            if (currentState == baseState){
+                ChangeState(laserState);
+            } else if (currentState == laserState){
+                ChangeState(bubbleState);
+            } else if (currentState == bubbleState){
+                ChangeState(baseState);
+            }
         }
     }
 
     // changes the current state and runs it's setup function
     public void ChangeState(CommandState newState) {
+        Debug.Log("pre-conclude");
         currentState.Conclude(this);
+        Debug.Log("pre-swap");
         currentState = newState;
+        Debug.Log("pre-setup");
         currentState.Setup(this);
     }
 
