@@ -7,9 +7,10 @@ using UnityEngine.UIElements;
 public class CommandManager : MonoBehaviour
 {
     
-    CommandState baseState = new CommandState();
-    CommandState laserState = new CommandLaserState();
-    CommandState bubbleState = new CommandBubbleState();
+    public CommandState baseState = new CommandState();
+    public CommandState laserState = new CommandLaserState();
+    public CommandState bubbleState = new CommandBubbleState();
+    public CommandRunState runState = new CommandRunState();
 
     [Header("Current State")]
     public CommandState currentState;
@@ -20,6 +21,10 @@ public class CommandManager : MonoBehaviour
     [Header("Projectiles/Object prefabs")]
     public GameObject laser;
     public GameObject bubble;
+
+    [Header("Movement settings")]
+    public float speed = 6f;
+    public float timePerRun = 0.25f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,19 +44,23 @@ public class CommandManager : MonoBehaviour
                 ChangeState(laserState);
             } else if (currentState == laserState){
                 ChangeState(bubbleState);
-            } else if (currentState == bubbleState){
+            } else if (currentState == bubbleState || currentState == runState){
                 ChangeState(baseState);
+            }
+        } else if (Input.GetMouseButtonDown(1)) {
+            if (currentState == runState){
+                runState.resetTimer(this);
+            } else {
+                ChangeState(runState);
             }
         }
     }
 
     // changes the current state and runs it's setup function
     public void ChangeState(CommandState newState) {
-        Debug.Log("pre-conclude");
+        Debug.Log("Changing state");
         currentState.Conclude(this);
-        Debug.Log("pre-swap");
         currentState = newState;
-        Debug.Log("pre-setup");
         currentState.Setup(this);
     }
 
