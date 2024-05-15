@@ -10,7 +10,7 @@ public class SpeechInput : MonoBehaviour
 {
     [Header("Speech Detection Settings")]
     [SerializeField] private string keywordToDetect = "activate";
-    [SerializeField] private float segmentDuration = 5.0f;
+    [SerializeField] private float segmentDuration = 2.0f;
     [SerializeField] private float speechThreshold = 0.1f;
 
     [Header("Recording Settings")]
@@ -20,6 +20,10 @@ public class SpeechInput : MonoBehaviour
 
     [Header("Linked GameObject")]
     [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject Image;
+    [SerializeField] private GameObject Image2;
+    [SerializeField] private TextMeshProUGUI text;
+
 
 
     void Start()
@@ -27,63 +31,70 @@ public class SpeechInput : MonoBehaviour
         if (Microphone.devices.Length == 0)
         {
             Debug.LogError("No microphone found.");
-            return;
+            Image.SetActive(true);
+ 
+
+        }
+        else
+        {
+            Image2.SetActive(true);
+            Debug.Log("Microphone Found");
+            StartRecording();
         }
     }
 
     void Update()
     {
-        // Start recording if not already recording and speech is detected
-        if (!isRecording && DetectSpeechActivity())
-        {
-            StartRecording();
-        }
-        // Stop recording if recording and speech activity ends
-        else if (isRecording && !DetectSpeechActivity() && Microphone.GetPosition(null) >= recording.samples)
-        {
-            StopRecording();
-        }
 
-        
+        if (isRecording)
+        {
+            CheckAndProcessRecording();
+        }
     }
 
 
     private void StartRecording()
     {
+        Debug.Log("Started Recording!!!");
         recording = Microphone.Start(null, false, Mathf.FloorToInt(segmentDuration), 44100);
         isRecording = true;
 
     }
 
-    private void StopRecording()
+    private void CheckAndProcessRecording()
     {
-        var position = Microphone.GetPosition(null);
-        Microphone.End(null);
-        var samples = new float[position * recording.channels];
-        recording.GetData(samples, 0);
-        bytes = EncodeAsWAV(samples, recording.frequency, recording.channels);
-        isRecording = false;
+        
+        int currentPosition = Microphone.GetPosition(null);
+        if (currentPosition >= recording.samples)
+        {
+            Debug.Log("Processing");
+            float[] samples = new float[recording.samples * recording.channels];
+            recording.GetData(samples, 0);
+            if (DetectSpeechActivity(samples))
+            {
+                
+                byte[] audioData = EncodeAsWAV(samples, recording.frequency, recording.channels);
+                SendRecording(audioData); // Send the recording, now expecting byte[] as input
+            }
+            Microphone.End(null); // Stop the current recording
+            StartRecording(); // Immediately start another recording segment
+        }
     }
 
 
 
     // Function to detect speech activity
-    bool DetectSpeechActivity()
+    bool DetectSpeechActivity(float[] samples)
     {
-        // Read audio data from the microphone
-        float[] audioData = new float[Mathf.FloorToInt(segmentDuration * 44100)];
-        int currentPosition = Microphone.GetPosition(null);
-        recording.GetData(audioData, currentPosition);
-
-        // Calculate average amplitude
+        Debug.Log("Activity");
         float averageAmplitude = 0f;
-        for (int i = 0; i < audioData.Length; i++)
+        for (int i = 0; i < samples.Length; i++)
         {
-            averageAmplitude += Mathf.Abs(audioData[i]);
+            averageAmplitude += Mathf.Abs(samples[i]);
         }
-        averageAmplitude /= audioData.Length;
+        averageAmplitude /= samples.Length;
+        Debug.Log($"Average Amplitude: {averageAmplitude}, Threshold: {speechThreshold}");
 
-        // Check if average amplitude exceeds the speech threshold
         return averageAmplitude > speechThreshold;
     }
 
@@ -115,6 +126,20 @@ public class SpeechInput : MonoBehaviour
             return memoryStream.ToArray();
         }
     }
+
+    private void SendRecording(byte[] audioData)
+    {
+        HuggingFaceAPI.AutomaticSpeechRecognition(audioData, response => {
+            // Update UI with the response on success
+            text.color = Color.white;
+            text.text = response;
+        }, error => {
+            // Update UI with the error message on failure
+            text.color = Color.red;
+            text.text = error;
+        });
+    }
+
 
 
 }
