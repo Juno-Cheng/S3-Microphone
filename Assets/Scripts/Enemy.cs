@@ -33,4 +33,9 @@ public class Enemy : MonoBehaviour
             damage(100);
         }
     }
+    private void OnCollisionEnter(Collision other) {
+        if (other.gameObject.name.Contains("Bubble")){
+            GetComponent<Rigidbody>().AddExplosionForce(10000,other.transform.position,40);
+        }
+    }
 }

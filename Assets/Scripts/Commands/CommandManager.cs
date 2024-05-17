@@ -26,6 +26,8 @@ public class CommandManager : MonoBehaviour
     public float speed = 6f;
     public float timePerRun = 0.25f;
 
+    public float shieldTime = 0.50f;
+
     // Start is called before the first frame update
     void Start()
     {

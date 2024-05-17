@@ -147,21 +147,21 @@ public class SpeechInput : MonoBehaviour
     {
         Debug.Log($"Handling command: {command}");
         // Parse the command and change state based on the recognized text
-        if (command.Contains("die"))
+        if (command.Contains("die") || command.Contains("laser"))
         {
             commandManager.ChangeState(commandManager.laserState);
         }
-        else if (command.Contains("laser"))
-        {
-            commandManager.ChangeState(commandManager.laserState);
-        }
-        else if (command.Contains("shield"))
+        else if (command.Contains("shield") || command.Contains("bubble"))
         {
             commandManager.ChangeState(commandManager.bubbleState);
         }
         else if (command.Contains("run"))
         {
             commandManager.ChangeState(commandManager.runState);
+        }
+        else if (command.Contains("stop"))
+        {
+            commandManager.ChangeState(commandManager.baseState);
         }
         // Add additional commands as needed
     }
