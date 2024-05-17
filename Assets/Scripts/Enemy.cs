@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionStay(Collision other) {
         if (other.gameObject.name.Contains("Laser")) {
-            damage(10);
+            damage(100);
         }
     }
 }
