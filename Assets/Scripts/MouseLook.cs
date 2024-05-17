@@ -19,6 +19,17 @@ public class MouseLook : MonoBehaviour
     [SerializeField][Range(0.0f, 0.5f)] float moveSmoothTime = 0.3f;
     [SerializeField] float gravity = -30f;
 
+    [Header("Lives Settings")]
+    [SerializeField] public int heartAmount = 3;
+    [SerializeField] float timer = 5f;
+    [SerializeField] GameObject image1;
+    [SerializeField] GameObject image2;
+    [SerializeField] GameObject image3;
+    [SerializeField] GameObject GO;
+    [SerializeField] CommandManager CM;
+    [SerializeField] SpeechInput SI;
+
+
     [Header("Ground Check")]
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask ground;
@@ -66,6 +77,12 @@ public class MouseLook : MonoBehaviour
     {
         UpdateMouse();
         UpdateMove();
+
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+
     }
 
     void UpdateMouse()
@@ -112,4 +129,44 @@ public class MouseLook : MonoBehaviour
 
         
     }
+
+
+
+    public void LoseLife()
+    {
+
+
+        //Check Invc-timer
+        if (timer <= 0)
+        {
+            heartAmount -= 1;
+            UpdateLivesDisplay();
+
+            if (heartAmount <= 0)
+            {
+                heartAmount = 0; // Ensure it doesn't go below zero
+                GameExit();
+            }
+            timer = 5f;
+        }
+    }
+
+    void UpdateLivesDisplay()
+    {
+        image1.SetActive(heartAmount > 0);
+        image2.SetActive(heartAmount > 1);
+        image3.SetActive(heartAmount > 2);
+    }
+
+    void GameExit()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        controller.enabled = false; // Disable the controller or player movement
+        GO.SetActive(true); // Assuming there's a GameOver screen GameObject
+        CM.disable(false);
+        SI.isOn = false;
+    }
+
+
 }

@@ -5,7 +5,9 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI endText;
     [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] MouseLook scriptRef;
     float elapsedTime;
 
     void Update()
@@ -18,5 +20,10 @@ public class Timer : MonoBehaviour
         int seconds = Mathf.FloorToInt(elapsedTime % 60); // seconds
 
         timerText.text = string.Format("{0:00}:{1:00}:{2:00}:{3:00}", days, hours, minutes, seconds);
+
+        if (scriptRef.heartAmount > 0)
+        {
+            endText.text = string.Format("{0:00}:{1:00}:{2:00}:{3:00}", days, hours, minutes, seconds);
+        }
     }
 }

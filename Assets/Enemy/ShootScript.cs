@@ -7,6 +7,7 @@ public class ShootScript : MonoBehaviour
 {
     [Header("Player Object")]
     [SerializeField] private Transform obj;
+    [SerializeField] private MouseLook playerRef;
 
     [Header("Enemy Settings")]
     [SerializeField] private NavMeshAgent enemy;
@@ -111,6 +112,22 @@ public class ShootScript : MonoBehaviour
         {
             Destroy(gameObject); // Destroy the enemy object
         }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Enemy has detected the player!");
+            // Access the PlayerScript component and call LoseLife
+            MouseLook playerScript = collision.gameObject.GetComponent<MouseLook>();
+            if (playerScript != null)
+            {
+                playerScript.LoseLife();
+            }
+            else
+            {
+                Debug.LogError("PlayerScript not found on the player GameObject!");
+            }
+        }
+
     }
 
 

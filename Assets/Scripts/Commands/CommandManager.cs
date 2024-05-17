@@ -14,6 +14,7 @@ public class CommandManager : MonoBehaviour
 
     [Header("Current State")]
     public CommandState currentState;
+    public bool isOn = true;
 
     [Header("Projectile/Object spawning point")]
     public Transform spawnSpot;
@@ -25,7 +26,6 @@ public class CommandManager : MonoBehaviour
     [Header("Movement settings")]
     public float speed = 6f;
     public float timePerRun = 0.25f;
-
     public float shieldTime = 0.50f;
 
     // Start is called before the first frame update
@@ -38,6 +38,10 @@ public class CommandManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isOn){
+            return;
+        }
+
         if (currentState != null) {
             currentState.LoopUpdate(this);
         }
@@ -67,6 +71,11 @@ public class CommandManager : MonoBehaviour
         currentState.Conclude(this);
         currentState = newState;
         currentState.Setup(this);
+    }
+
+    public void disable(bool state)
+    {
+        isOn = state;
     }
 
     // STATE FUNCTIONS (allows states to interact with monobehavior scene) 

@@ -10,6 +10,7 @@ public class FollowScript : MonoBehaviour
     [Header("Player Object")]
     [SerializeField] public NavMeshAgent enemy;
     [SerializeField] public int speed = 10;
+    [SerializeField] private MouseLook playerRef;
 
     private Transform playerTransform;
 
@@ -48,6 +49,22 @@ public class FollowScript : MonoBehaviour
         {
             Destroy(gameObject); // Destroy the enemy object
         }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Enemy has detected the player!");
+            // Access the PlayerScript component and call LoseLife
+            MouseLook playerScript = collision.gameObject.GetComponent<MouseLook>();
+            if (playerScript != null)
+            {
+                playerScript.LoseLife();
+            }
+            else
+            {
+                Debug.LogError("PlayerScript not found on the player GameObject!");
+            }
+        }
+
     }
 
 }

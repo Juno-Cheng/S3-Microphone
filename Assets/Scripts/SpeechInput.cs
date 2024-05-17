@@ -12,6 +12,7 @@ public class SpeechInput : MonoBehaviour
     [SerializeField] private string keywordToDetect = "activate";
     [SerializeField] private float segmentDuration = 2.0f;
     [SerializeField] private float speechThreshold = 0.1f;
+    [SerializeField] public bool isOn = true;
 
     [Header("Recording Settings")]
     [SerializeField] private AudioClip recording;
@@ -47,6 +48,10 @@ public class SpeechInput : MonoBehaviour
 
     void Update()
     {
+        if (!isOn)
+        {
+            return;
+        }
 
         if (isRecording)
         {
