@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CommandLaserState : CommandState
 {
-    float laserSpeed = 10f;
     float maxLength = 100f;
+    float laserSpeed = 10f;
     GameObject spawned;
     public override void Setup(CommandManager command){
         spawned = command.spawnObject(command.laser);
