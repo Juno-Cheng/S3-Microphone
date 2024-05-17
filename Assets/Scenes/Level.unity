@@ -1537,10 +1537,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -227713291759251659, guid: 12900e51ce9d49d40a7a26b81aa43cb8, type: 3}
-      propertyPath: obj
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1747603896041664720, guid: 12900e51ce9d49d40a7a26b81aa43cb8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2002.2544
@@ -1695,6 +1691,7 @@ MonoBehaviour:
   bubble: {fileID: 3515763796834404014, guid: 10a00295c64511144be78dc2a0fe3040, type: 3}
   speed: 6
   timePerRun: 0.25
+  shieldTime: 0.5
 --- !u!1 &1499984075
 GameObject:
   m_ObjectHideFlags: 0
