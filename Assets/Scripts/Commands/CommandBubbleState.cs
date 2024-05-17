@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CommandBubbleState : CommandState
 {
-    float bubbleSpeed = 0.3f;
+    float bubbleSpeed = 3f;
     GameObject spawned;
     public override void Setup(CommandManager command){
         spawned = command.spawnObject(command.bubble);
@@ -13,7 +13,6 @@ public class CommandBubbleState : CommandState
     }
     public override void LoopUpdate(CommandManager command){
         spawned.transform.localScale += Vector3.one * bubbleSpeed * Time.deltaTime;
-        
     }
 
     public override void Conclude(CommandManager command){
