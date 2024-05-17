@@ -16,8 +16,6 @@ public class CommandLaserState : CommandState
         if (spawned.transform.localScale.x > maxLength) return;
         spawned.transform.localPosition += new Vector3(0,0,laserSpeed/2) * Time.deltaTime;
         spawned.transform.localScale += new Vector3(0,0,laserSpeed) * Time.deltaTime;
-        
-        
     }
 
     public override void Conclude(CommandManager command){

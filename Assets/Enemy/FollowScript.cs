@@ -40,4 +40,14 @@ public class FollowScript : MonoBehaviour
     {
         enemy.destination = playerTransform.position;
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // Check if the collider belongs to a laser beam
+        if (collision.gameObject.CompareTag("Laser")) // Make sure the laser prefab is tagged "Laser" in the editor
+        {
+            Destroy(gameObject); // Destroy the enemy object
+        }
+    }
+
 }
