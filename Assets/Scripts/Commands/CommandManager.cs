@@ -58,6 +58,9 @@ public class CommandManager : MonoBehaviour
 
     // changes the current state and runs it's setup function
     public void ChangeState(CommandState newState) {
+        if (currentState == newState) {
+            return;
+        }
         Debug.Log("Changing state");
         currentState.Conclude(this);
         currentState = newState;
