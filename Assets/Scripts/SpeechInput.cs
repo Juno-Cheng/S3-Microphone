@@ -23,6 +23,8 @@ public class SpeechInput : MonoBehaviour
     [SerializeField] private GameObject Image;
     [SerializeField] private GameObject Image2;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] public CommandManager commandManager;
+
 
 
 
@@ -133,11 +135,35 @@ public class SpeechInput : MonoBehaviour
             // Update UI with the response on success
             text.color = Color.white;
             text.text = response;
+            HandleCommand(response.ToLower());
         }, error => {
             // Update UI with the error message on failure
             text.color = Color.red;
             text.text = error;
         });
+    }
+
+    private void HandleCommand(string command)
+    {
+        Debug.Log($"Handling command: {command}");
+        // Parse the command and change state based on the recognized text
+        if (command.Contains("die"))
+        {
+            commandManager.ChangeState(commandManager.laserState);
+        }
+        else if (command.Contains("laser"))
+        {
+            commandManager.ChangeState(commandManager.laserState);
+        }
+        else if (command.Contains("shield"))
+        {
+            commandManager.ChangeState(commandManager.bubbleState);
+        }
+        else if (command.Contains("run"))
+        {
+            commandManager.ChangeState(commandManager.runState);
+        }
+        // Add additional commands as needed
     }
 
 
